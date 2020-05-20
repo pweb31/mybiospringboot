@@ -5,43 +5,43 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	private String nom;
 	private String email;
 	private String telephone;
 	private String adresse;
 	private String carte;
-	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<CommandeClient> cmdClient;
 
 	public Client() {
 	}
 
-	public Client(long id, String nom, String email, String telephone, String adresse, String carte,
-			Set<CommandeClient> cmdClient) {
-		this.id = id;
+	public Client(String nom, String email, String telephone, String adresse, String carte) {
 		this.nom = nom;
 		this.email = email;
 		this.telephone = telephone;
 		this.adresse = adresse;
 		this.carte = carte;
-		this.cmdClient = cmdClient;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -85,6 +85,7 @@ public class Client implements Serializable {
 		this.carte = carte;
 	}
 
+	@JsonIgnore
 	public Set<CommandeClient> getCmdClient() {
 		return cmdClient;
 	}

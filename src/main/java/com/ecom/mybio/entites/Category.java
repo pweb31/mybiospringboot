@@ -5,29 +5,37 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Category implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private String nom;
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	private String imgCategory;
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Product> products;
 
 	public Category() {
 	}
 
-	public Category(int id, String nom, Set<Product> products) {
-		this.id = id;
+	public Category(String nom, Set<Product> products) {
 		this.nom = nom;
 		this.products = products;
 	}
 
+	public Category(String nom) {
+		this.nom = nom;
+	}
+
+	@JsonIgnore
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -36,11 +44,11 @@ public class Category implements Serializable {
 		this.products = products;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -52,14 +60,12 @@ public class Category implements Serializable {
 		this.nom = nom;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
-		result = prime * result + ((products == null) ? 0 : products.hashCode());
-		return result;
+	public String getImgCategory() {
+		return imgCategory;
+	}
+
+	public void setImgCategory(String imgCategory) {
+		this.imgCategory = imgCategory;
 	}
 
 	@Override

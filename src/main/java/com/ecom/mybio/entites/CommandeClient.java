@@ -6,12 +6,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class CommandeClient implements Serializable {
@@ -24,7 +27,7 @@ public class CommandeClient implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "CLIENT_ID")
 	private Client client;
-	@OneToMany(mappedBy = "cmdClient")
+	@OneToMany(mappedBy = "cmdClient", fetch = FetchType.LAZY)
 	private Set<ProductCommandeClient> prodCmdCli = new HashSet<ProductCommandeClient>();
 
 	public CommandeClient() {
@@ -78,6 +81,7 @@ public class CommandeClient implements Serializable {
 		this.client = client;
 	}
 
+	@JsonIgnore
 	public Set<ProductCommandeClient> getProdCmdCli() {
 		return prodCmdCli;
 	}
