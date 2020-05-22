@@ -90,6 +90,7 @@ public class Product implements Serializable {
 		this.dernier_maj = dernier_maj;
 	}
 
+	@JsonIgnore
 	public Category getCategory() {
 		return category;
 	}

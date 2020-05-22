@@ -31,12 +31,14 @@ public class CategoryMetierImpl implements CategoryMetier {
 
 	@Override
 	public Category recupererCategoryParSonId(Long id) {
-		return categoryRepository.getOne(id);
+		//return categoryRepository.getOne(id); https://stackoverflow.com/questions/52656517/no-serializer-found-for-class-org-hibernate-proxy-pojo-bytebuddy-bytebuddyinterc
+		return categoryRepository.findById(id).get();
 	}
 
 	@Override
 	public Category recupererCategory(Category c) {
-		return categoryRepository.getOne(c.getId());
+		//return categoryRepository.getOne(c.getId());
+		return categoryRepository.findById(c.getId()).get();
 	}
 
 	@Override
