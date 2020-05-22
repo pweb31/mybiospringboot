@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,7 +20,8 @@ public class Category implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nom;
-	private String imgCategory;
+	@Lob
+	private byte[] imgCategory;
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Product> products;
 
@@ -60,11 +62,11 @@ public class Category implements Serializable {
 		this.nom = nom;
 	}
 
-	public String getImgCategory() {
+	public byte[] getImgCategory() {
 		return imgCategory;
 	}
 
-	public void setImgCategory(String imgCategory) {
+	public void setImgCategory(byte[] imgCategory) {
 		this.imgCategory = imgCategory;
 	}
 

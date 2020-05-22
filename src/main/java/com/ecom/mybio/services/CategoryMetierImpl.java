@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecom.mybio.entites.Category;
+import com.ecom.mybio.entites.Product;
 import com.ecom.mybio.repository.CategoryRepository;
+import com.ecom.mybio.repository.ProductRepository;
 
 @Service
 public class CategoryMetierImpl implements CategoryMetier {
@@ -14,15 +16,50 @@ public class CategoryMetierImpl implements CategoryMetier {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private ProductRepository productRepository;
+
 	@Override
-	public Category addCategory(Category cat) {
-		Category newCat = categoryRepository.save(cat);
-		return newCat;
+	public Category ajouterCategory(Category c) {
+		return categoryRepository.save(c);
 	}
 
 	@Override
-	public List<Category> listCategory() {
+	public List<Category> listCategories() {
 		return categoryRepository.findAll();
+	}
+
+	@Override
+	public Category recupererCategoryParSonId(Long id) {
+		return categoryRepository.getOne(id);
+	}
+
+	@Override
+	public Category recupererCategory(Category c) {
+		return categoryRepository.getOne(c.getId());
+	}
+
+	@Override
+	public Category modifierCategory(Category categorieDetail) {
+		Category categ = recupererCategory(categorieDetail);
+
+		categ.setNom(categorieDetail.getNom());
+
+		Category updateCategory = ajouterCategory(categ);
+
+		return updateCategory;
+	}
+
+	@Override
+	public void SupprimerCategory(Category c) {
+		categoryRepository.deleteById(c.getId());
+
+	}
+
+	@Override
+	public List<Product> recuperProduitsCategorie(Category categ) {
+		return productRepository.findByCategory(categ);
+
 	}
 
 }

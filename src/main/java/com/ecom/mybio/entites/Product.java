@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -35,18 +36,18 @@ public class Product implements Serializable {
 	private Category category;
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	private Set<ProductCommandeClient> prodCmdClient = new HashSet<ProductCommandeClient>();
-	private String imgProduit;
+	@Lob
+	private byte[] imgProduit;
 
 	public Product() {
 	}
 
-	public Product(String nom, float prix, String description, Date dernier_maj, String imgProduit) {
+	public Product(String nom, float prix, String description, Date dernier_maj) {
 
 		this.nom = nom;
 		this.prix = prix;
 		this.description = description;
 		this.dernier_maj = dernier_maj;
-		this.imgProduit = imgProduit;
 	}
 
 	public long getId() {
@@ -106,12 +107,16 @@ public class Product implements Serializable {
 		this.prodCmdClient = prodCmdClient;
 	}
 
-	public String getImgProduit() {
+	public byte[] getImgProduit() {
 		return imgProduit;
 	}
 
-	public void setImgProduit(String imgProduit) {
+	public void setImgProduit(byte[] imgProduit) {
 		this.imgProduit = imgProduit;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }
